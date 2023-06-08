@@ -23,12 +23,26 @@ public class TotpUtilsModule extends TotpUtilsSpec {
     System.loadLibrary("cpp");
   }
 
-  public static native double nativeMultiply(double a, double b);
+  public static native String nativeGenerateSecretKey(double length);
 
-  // Example method
+  public static native String nativeGenerateOTP(String secret, double digits, double timeStep);
+
+  public static native Boolean nativeValidateOTP(String secret, String otp, double digits, double timeStep,
+      double window);
+
   // See https://reactnative.dev/docs/native-modules-android
   @ReactMethod
-  public void multiply(double a, double b, Promise promise) {
-    promise.resolve(nativeMultiply(a, b));
+  public void generateSecretKey(double length, Promise promise) {
+    promise.resolve(nativeGenerateSecretKey(length));
+  }
+
+  @ReactMethod
+  public void generateOTP(String secret, double digits, double timeStep, Promise promise) {
+    promise.resolve(nativeGenerateOTP(secret, digits, timeStep));
+  }
+
+  @ReactMethod
+  public void validateOTP(String secret, String otp, double digits, double timeStep, double window, Promise promise) {
+    promise.resolve(nativeValidateOTP(secret, otp, digits, timeStep, window));
   }
 }

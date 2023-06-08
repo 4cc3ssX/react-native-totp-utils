@@ -1,18 +1,38 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-totp-utils';
+import {
+  generateOTP,
+  generateSecretKey,
+  validateOTP,
+  formatSecretKey,
+  formatOTP,
+} from 'react-native-totp-utils';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [secretKey, setSecretKey] = React.useState<string>('');
+  const [otp, setOTP] = React.useState<string>('');
+  const [isValid, setIsValid] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    generateSecretKey().then((secret) => {
+      // set formatted secret
+      setSecretKey(formatSecretKey(secret));
+      generateOTP(secret).then((totp) => {
+        // set formatted OTP
+        setOTP(formatOTP(totp));
+        validateOTP(secret, totp).then((valid) => {
+          setIsValid(valid);
+        });
+      });
+    });
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Secret Key: {secretKey}</Text>
+      <Text>OTP: {otp}</Text>
+      <Text>Is Valid: {`${isValid}`}</Text>
     </View>
   );
 }
@@ -22,6 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   box: {
     width: 60,

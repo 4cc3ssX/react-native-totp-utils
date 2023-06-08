@@ -2,20 +2,51 @@
 
 A full-featured Time-Based One-Time Password (TOTP) library for React Native, providing functions for generating and validating OTP codes.
 
+## Features
+
+- [X] New Architecture Support
+- [X] Written in C++
+- [X] Generate Secret Key
+- [X] Generate OTP
+- [X] Validate OTP
+- [ ] JSI Implementation
+
 ## Installation
 
-```sh
+Using npm:
+
+```bash
 npm install react-native-totp-utils
+```
+
+Using yarn:
+
+```bash
+yarn add react-native-totp-utils
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-totp-utils';
+import {
+  generateOTP,
+  generateSecretKey,
+  validateOTP,
+  formatSecretKey,
+  formatOTP,
+} from 'react-native-totp-utils';
 
 // ...
 
-const result = await multiply(3, 7);
+const secretKey = await generateSecretKey(); // ABCDABCDABCD
+
+const otp = await generateOTP(secretKey); // 123456
+
+const isValid = await validateOTP(secretKey, otp); // true
+
+const formattedSecretKey = formatSecretKey(secretKey); // ABCD-ABCD-ABCD-ABCD
+
+const formattedOTP = formatOTP(otp); // 123 456
 ```
 
 ## Contributing

@@ -9,5 +9,10 @@ abstract class TotpUtilsSpec extends ReactContextBaseJavaModule {
     super(context);
   }
 
-  public abstract void multiply(double a, double b, Promise promise);
+  public abstract void generateSecretKey(double keyLength, Promise promise);
+
+  public abstract void generateOTP(String secret, double digits, double timeStep, Promise promise);
+
+  public abstract void validateOTP(String secret, String otp, double digits, double timeStep, double window,
+      Promise promise);
 }

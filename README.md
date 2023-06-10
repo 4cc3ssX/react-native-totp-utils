@@ -9,7 +9,7 @@ A full-featured Time-Based One-Time Password (TOTP) library for React Native, pr
 - [X] Generate Secret Key
 - [X] Generate OTP
 - [X] Validate OTP
-- [ ] JSI Implementation
+- [X] JSI Implementation
 
 ## Installation
 

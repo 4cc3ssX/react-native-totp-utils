@@ -1,12 +1,16 @@
 package com.totputils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.module.annotations.ReactModule;
 
-public class TotpUtilsModule extends TotpUtilsSpec {
+@ReactModule(name = TotpUtilsModule.NAME)
+public class TotpUtilsModule extends ReactContextBaseJavaModule {
   public static final String NAME = "TotpUtils";
 
   TotpUtilsModule(ReactApplicationContext context) {
@@ -20,29 +24,24 @@ public class TotpUtilsModule extends TotpUtilsSpec {
   }
 
   static {
-    System.loadLibrary("cpp");
+    try {
+      System.loadLibrary("cpp");
+    } catch (Exception ignored) {
+
+    }
   }
 
-  public static native String nativeGenerateSecretKey(double length);
+  private native void nativeInstall(long jsi);
 
-  public static native String nativeGenerateOTP(String secret, double digits, double timeStep);
+  public void installLib(JavaScriptContextHolder reactContext) {
 
-  public static native Boolean nativeValidateOTP(String secret, String otp, double digits, double timeStep,
-      double window);
+    if (reactContext.get() != 0) {
+      this.nativeInstall(
+        reactContext.get()
+      );
+    } else {
+      Log.e("TotpUtilsModule", "JSI Runtime is not available in debug mode");
+    }
 
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  public void generateSecretKey(double length, Promise promise) {
-    promise.resolve(nativeGenerateSecretKey(length));
-  }
-
-  @ReactMethod
-  public void generateOTP(String secret, double digits, double timeStep, Promise promise) {
-    promise.resolve(nativeGenerateOTP(secret, digits, timeStep));
-  }
-
-  @ReactMethod
-  public void validateOTP(String secret, String otp, double digits, double timeStep, double window, Promise promise) {
-    promise.resolve(nativeValidateOTP(secret, otp, digits, timeStep, window));
   }
 }

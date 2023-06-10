@@ -1,33 +1,10 @@
-import { NativeModules, Platform } from 'react-native';
 import type {
   IGenerateOTPOptions,
   IGenerateSecretKeyOptions,
   IValidateOTPOptions,
 } from './types';
 
-const LINKING_ERROR =
-  `The package 'react-native-totp-utils' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-// @ts-expect-error
-const isTurboModuleEnabled = global.__turboModuleProxy != null;
-
-const TotpUtilsModule = isTurboModuleEnabled
-  ? require('./NativeTotpUtils').default
-  : NativeModules.TotpUtils;
-
-const TotpUtils = TotpUtilsModule
-  ? TotpUtilsModule
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+const g = global as any;
 
 export enum Constants {
   DEFAULT_DIGITS = 6,
@@ -50,12 +27,12 @@ export const defaultOptions = {
  */
 export function generateSecretKey(
   options: IGenerateSecretKeyOptions = defaultOptions
-): Promise<string> {
+): string {
   options = {
     ...defaultOptions,
     ...options,
   };
-  return TotpUtils.generateSecretKey(options.length);
+  return g.totpUtilsGenerateSecretKey(options.length);
 }
 
 /**
@@ -67,13 +44,13 @@ export function generateSecretKey(
 export function generateOTP(
   secretKey: string,
   options: IGenerateOTPOptions = defaultOptions
-): Promise<string> {
+): string {
   // overwrite undefined options with default
   options = {
     ...defaultOptions,
     ...options,
   };
-  return TotpUtils.generateOTP(secretKey, options.digits, options.timeStep);
+  return g.totpUtilsGenerateOTP(secretKey, options.digits, options.timeStep);
 }
 
 /**
@@ -87,13 +64,13 @@ export function validateOTP(
   secretKey: string,
   otp: string,
   options: IValidateOTPOptions = {}
-): Promise<boolean> {
+): boolean {
   // overwrite undefined options with default
   options = {
     ...defaultOptions,
     ...options,
   };
-  return TotpUtils.validateOTP(
+  return g.totpUtilsValidateOTP(
     secretKey,
     otp,
     options.digits,

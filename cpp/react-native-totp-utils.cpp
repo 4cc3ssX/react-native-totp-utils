@@ -2,6 +2,56 @@
 
 namespace totputils
 {
+	void install(Runtime& jsiRuntime)
+	{
+		// TotpUtils.generateSecretKey(...)
+		auto totpUtilsGenerateSecretKey = Function::createFromHostFunction(
+			jsiRuntime, PropNameID::forAscii(jsiRuntime, "generateSecretKey"), 1,
+			[](Runtime &runtime, const Value &thisValue, const Value *arguments,
+			   size_t count) -> Value
+			{
+				int length = arguments[0].getNumber();
+				std::string secret = generateSecretKey(length);
+				return Value(String::createFromUtf8(runtime, secret));
+			});
+
+        jsiRuntime.global().setProperty(jsiRuntime, "totpUtilsGenerateSecretKey", std::move(totpUtilsGenerateSecretKey));
+
+		// TotpUtils.generateOTP(...)
+		auto totpUtilsGenerateOTP = Function::createFromHostFunction(
+			jsiRuntime, PropNameID::forAscii(jsiRuntime, "generateOTP"), 3,
+			[](Runtime &runtime, const Value &thisValue, const Value *arguments,
+			   size_t count) -> Value
+			{
+				std::string secret = arguments[0].toString(runtime).utf8(runtime);
+				int digits = arguments[1].getNumber();
+				int timeStep = arguments[2].getNumber();
+				std::string otp = generateOTP(secret, digits, timeStep);
+				return Value(String::createFromUtf8(runtime, otp));
+			});
+
+        jsiRuntime.global().setProperty(jsiRuntime, "totpUtilsGenerateOTP", std::move(totpUtilsGenerateOTP));
+
+		// TotpUtils.validateOTP(...)
+		auto totpUtilsValidateOTP = Function::createFromHostFunction(
+			jsiRuntime, PropNameID::forAscii(jsiRuntime, "validateOTP"), 5,
+			[](Runtime &runtime, const Value &thisValue, const Value *arguments,
+			   size_t count) -> Value
+			{
+				std::string secret = arguments[0].toString(runtime).utf8(runtime);
+				std::string otp = arguments[1].toString(runtime).utf8(runtime);
+				int digits = arguments[2].getNumber();
+				int timeStep = arguments[3].getNumber();
+				int window = arguments[4].getNumber();
+                bool isValid = validateOTP(secret, otp, digits, timeStep, window);
+                return Value(isValid);
+			});
+
+        jsiRuntime.global().setProperty(jsiRuntime, "totpUtilsValidateOTP", std::move(totpUtilsValidateOTP));
+
+
+	}
+
 	std::string generateSecretKey(int keyLength)
 	{
 		const std::string base32Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";

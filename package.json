@@ -39,7 +39,9 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "totp",
+    "totp-utils"
   ],
   "repository": "https://github.com/4cc3ssX/react-native-totp-utils",
   "author": "Ryam <heinmyatthu.workspace@gmail.com> (https://github.com/4cc3ssX)",

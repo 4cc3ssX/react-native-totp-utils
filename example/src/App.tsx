@@ -15,17 +15,17 @@ export default function App() {
   const [isValid, setIsValid] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    generateSecretKey().then((secret) => {
-      // set formatted secret
-      setSecretKey(formatSecretKey(secret));
-      generateOTP(secret).then((totp) => {
-        // set formatted OTP
-        setOTP(formatOTP(totp));
-        validateOTP(secret, totp).then((valid) => {
-          setIsValid(valid);
-        });
-      });
-    });
+    const secret = generateSecretKey();
+    console.log(secret);
+    // set formatted secret
+    setSecretKey(formatSecretKey(secret));
+    const totp = generateOTP(secret);
+    console.log(totp);
+    // set formatted OTP
+    setOTP(formatOTP(totp));
+    const valid = validateOTP(secret, totp);
+    console.log(valid);
+    setIsValid(valid);
   }, []);
 
   return (

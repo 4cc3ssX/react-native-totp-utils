@@ -38,11 +38,11 @@ import {
 
 // ...
 
-const secretKey = await generateSecretKey(); // ABCDABCDABCD
+const secretKey = generateSecretKey(); // ABCDABCDABCD
 
-const otp = await generateOTP(secretKey); // 123456
+const otp = generateOTP(secretKey); // 123456
 
-const isValid = await validateOTP(secretKey, otp); // true
+const isValid = validateOTP(secretKey, otp); // true
 
 const formattedSecretKey = formatSecretKey(secretKey); // ABCD-ABCD-ABCD-ABCD
 

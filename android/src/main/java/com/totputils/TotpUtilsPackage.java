@@ -1,45 +1,28 @@
 package com.totputils;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
+import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.module.model.ReactModuleInfo;
-import com.facebook.react.module.model.ReactModuleInfoProvider;
-import com.facebook.react.TurboReactPackage;
+import com.facebook.react.uimanager.ViewManager;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class TotpUtilsPackage extends TurboReactPackage {
-
-  @Nullable
+public class TotpUtilsPackage implements ReactPackage {
+  @NonNull
   @Override
-  public NativeModule getModule(String name, ReactApplicationContext reactContext) {
-    if (name.equals(TotpUtilsModule.NAME)) {
-      return new TotpUtilsModule(reactContext);
-    } else {
-      return null;
-    }
+  public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
+    List<NativeModule> modules = new ArrayList<>();
+    modules.add(new TotpUtilsModule(reactContext));
+    return modules;
   }
 
+  @NonNull
   @Override
-  public ReactModuleInfoProvider getReactModuleInfoProvider() {
-    return () -> {
-      final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
-      boolean isTurboModule = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-      moduleInfos.put(
-              TotpUtilsModule.NAME,
-              new ReactModuleInfo(
-                      TotpUtilsModule.NAME,
-                      TotpUtilsModule.NAME,
-                      false, // canOverrideExistingModule
-                      false, // needsEagerInit
-                      true, // hasConstants
-                      false, // isCxxModule
-                      isTurboModule // isTurboModule
-      ));
-      return moduleInfos;
-    };
+  public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
+    return Collections.emptyList();
   }
 }

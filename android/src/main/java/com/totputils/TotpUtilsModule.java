@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.module.annotations.ReactModule;
 
 @ReactModule(name = TotpUtilsModule.NAME)
@@ -23,25 +24,20 @@ public class TotpUtilsModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-  static {
-    try {
-      System.loadLibrary("cpp");
-    } catch (Exception ignored) {
-
-    }
-  }
-
   private native void nativeInstall(long jsi);
 
-  public void installLib(JavaScriptContextHolder reactContext) {
-
-    if (reactContext.get() != 0) {
-      this.nativeInstall(
-        reactContext.get()
-      );
-    } else {
-      Log.e("TotpUtilsModule", "JSI Runtime is not available in debug mode");
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  public boolean install() {
+    try {
+      Log.i(NAME, "Loading C++ library...");
+      System.loadLibrary("reactnativetotputils");
+      JavaScriptContextHolder jsContext = getReactApplicationContext().getJavaScriptContextHolder();
+      Log.i(NAME, "Installing JSI Bindings...");
+      nativeInstall(jsContext.get());
+      return true;
+    } catch (Exception exception) {
+      Log.e(NAME, "Failed to install JSI Bindings!", exception);
+      return false;
     }
-
   }
 }

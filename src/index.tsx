@@ -1,8 +1,30 @@
+import { NativeModules, Platform } from 'react-native';
 import type {
   IGenerateOTPOptions,
   IGenerateSecretKeyOptions,
   IValidateOTPOptions,
 } from './types';
+
+const LINKING_ERROR =
+  `The package 'react-native-totp-utils' doesn't seem to be linked. Make sure: \n\n` +
+  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
+  '- You rebuilt the app after installing the package\n' +
+  '- You are not using Expo Go\n';
+
+const TotpUtilsModule = NativeModules.TotpUtils;
+
+const TotpUtils = TotpUtilsModule
+  ? TotpUtilsModule
+  : new Proxy(
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
+
+TotpUtils.install();
 
 const g = global as any;
 

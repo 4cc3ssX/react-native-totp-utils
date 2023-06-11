@@ -8,9 +8,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.facebook.react.bridge.JSIModulePackage;
+
 import java.util.List;
-import com.totputils.TotpUtilsModulePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -28,11 +27,6 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
           return packages;
-        }
-
-        @Override
-        protected JSIModulePackage getJSIModulePackage() {
-          return new TotpUtilsModulePackage();
         }
 
         @Override

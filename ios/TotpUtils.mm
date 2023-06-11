@@ -19,16 +19,22 @@ RCT_EXPORT_MODULE()
 - (void)setBridge:(RCTBridge *)bridge {
     _bridge = bridge;
     _setBridgeOnMainQueue = RCTIsMainQueue();
-    [self installLibrary];
 }
 
-- (void)installLibrary {
 
-    RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
-
-    if (cxxBridge.runtime) {
-       totputils::install(*(facebook::jsi::Runtime *)cxxBridge.runtime);
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install)
+{
+    NSLog(@"Installing TotpUtils Bindings...");
+    RCTCxxBridge* cxxBridge = (RCTCxxBridge*) self.bridge;
+    if (cxxBridge == nil) {
+        return @false;
     }
+    
+    // Totp JSI Binding
+    totputils::install(*(facebook::jsi::Runtime *)cxxBridge.runtime);
+    
+    NSLog(@"Installed TotpUtils Bindings!");
+    return @true;
 }
 
 @end

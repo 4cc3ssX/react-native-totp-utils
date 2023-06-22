@@ -5,7 +5,7 @@
 #include <random>
 #include <string>
 #include <chrono>
-#include "hmac/hmac_sha1.hpp"
+#include "hmac/hmac_sha1.cpp"
 
 using namespace facebook::jsi;
 

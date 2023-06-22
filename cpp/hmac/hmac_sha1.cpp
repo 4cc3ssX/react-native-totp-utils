@@ -4,7 +4,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../sha/sha1.hpp"
+#include "../sha/sha1.cpp"
 
 static std::string Sha1(const std::string &message)
 {

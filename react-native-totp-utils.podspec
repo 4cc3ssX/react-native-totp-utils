@@ -22,7 +22,8 @@ Pod::Spec.new do |s|
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
     s.pod_target_xcconfig    = {
-        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
+        "USE_HEADERMAP" => "YES",
+        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_TARGET_SRCROOT)\"",
         "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
         "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
     }
@@ -32,4 +33,13 @@ Pod::Spec.new do |s|
     s.dependency "RCTTypeSafety"
     s.dependency "ReactCommon/turbomodule/core"
   end
+
+  # Any private headers that are not globally unique should be mentioned here.
+  # Otherwise there will be a nameclash, since CocoaPods flattens out any header directories
+  # See https://github.com/firebase/firebase-ios-sdk/issues/4035 for more details.
+  s.preserve_paths = [
+    "cpp/**/*.h",
+    "ios/**/*.h"
+  ]
+
 end

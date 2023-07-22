@@ -29,9 +29,9 @@ yarn add react-native-totp-utils
 
 ```js
 import {
-  generateOTP,
+  generateTOTP,
   generateSecretKey,
-  validateOTP,
+  validateTOTP,
   formatSecretKey,
   formatOTP,
 } from 'react-native-totp-utils';
@@ -40,9 +40,9 @@ import {
 
 const secretKey = generateSecretKey(); // ABCDABCDABCD
 
-const otp = generateOTP(secretKey); // 123456
+const otp = generateTOTP(secretKey); // 123456
 
-const isValid = validateOTP(secretKey, otp); // true
+const isValid = validateTOTP(secretKey, otp); // true
 
 const formattedSecretKey = formatSecretKey(secretKey); // ABCD-ABCD-ABCD-ABCD
 

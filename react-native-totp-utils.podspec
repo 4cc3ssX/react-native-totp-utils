@@ -17,29 +17,12 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm}", "cpp/**/*.{h,cpp}"
 
   s.dependency "React-Core"
+  s.dependency "OpenSSL-Universal"
 
-  # Don't install the dependencies when we run `pod install` in the old architecture.
-  if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
-    s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
-    s.pod_target_xcconfig    = {
-        "USE_HEADERMAP" => "YES",
-        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_TARGET_SRCROOT)\"",
-        "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
-        "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
-    }
-    s.dependency "React-Codegen"
-    s.dependency "RCT-Folly"
-    s.dependency "RCTRequired"
-    s.dependency "RCTTypeSafety"
-    s.dependency "ReactCommon/turbomodule/core"
-  end
-
-  # Any private headers that are not globally unique should be mentioned here.
-  # Otherwise there will be a nameclash, since CocoaPods flattens out any header directories
-  # See https://github.com/firebase/firebase-ios-sdk/issues/4035 for more details.
-  s.preserve_paths = [
-    "cpp/**/*.h",
-    "ios/**/*.h"
-  ]
-
+  s.pod_target_xcconfig    = {
+      "USE_HEADERMAP" => "YES",
+      "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)\"",
+      "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
+      "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+  }
 end

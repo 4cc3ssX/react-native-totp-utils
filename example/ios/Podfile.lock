@@ -8,6 +8,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.72.0)
   - hermes-engine/Pre-built (0.72.0)
   - libevent (2.1.12)
+  - OpenSSL-Universal (1.1.2100)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -872,12 +873,8 @@ PODS:
   - React-logger (0.72.0):
     - glog
   - react-native-totp-utils (1.0.5):
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Codegen
+    - OpenSSL-Universal
     - React-Core
-    - ReactCommon/turbomodule/core
   - React-NativeModulesApple (0.72.0):
     - hermes-engine
     - React-callinvoker
@@ -1059,6 +1056,7 @@ SPEC REPOS:
   trunk:
     - fmt
     - libevent
+    - OpenSSL-Universal
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1158,6 +1156,7 @@ SPEC CHECKSUMS:
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: c85f703623cb12d7e1d9db91afe53b3ea8aa7219
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  OpenSSL-Universal: 96db2ea04174c0e3d50d93b74f0e198f980e2aa9
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 656ef0536dd60a9740961ade6a64ba0cb0572d2b
   RCTTypeSafety: 82bd23b63f043d1a6b8e80e72fd15c08e04528a4
@@ -1176,7 +1175,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 990287d74aedc4fdd08ebd80736b1a5c71b54da2
   React-jsinspector: 8d754fc957255a29d93e52fc67a895045cdc8703
   React-logger: 454ffb01980778a43b0153ee98721d0275b56616
-  react-native-totp-utils: c5c24884a8a1c739bddbc73524c193aa689e1cee
+  react-native-totp-utils: bc83319686a9d9c21b4a3a2feebd4a3c55540bac
   React-NativeModulesApple: 038cd625999ff352fc13d11fd335ea7509794599
   React-perflogger: 684a11499a0589cc42135d6d5cc04d0e4e0e261a
   React-RCTActionSheet: 00b0a4c382a13b834124fa3f541a7d8d1d56efb9

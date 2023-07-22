@@ -1,5 +1,5 @@
-import { defaultOptions } from '../index';
-import type { IGenerateOTPOptions, IGenerateSecretKeyOptions } from '../types';
+import { Constants, defaultOptions } from '../index';
+import type { IGenerateOTPOptions } from '../types';
 
 /**
  * Checks if the given OTP (One-Time Password) has a valid format.
@@ -20,15 +20,11 @@ export const isOTPValid = (
  * Checks if the given secret key has a valid format.
  *
  * @param {string} secretKey - The secret key to check.
- * @param {IGenerateSecretKeyOptions} [options=defaultOptions] - The options for secret key generation (optional).
  * @returns {boolean} True if the secret key format is valid, false otherwise.
  */
-export const isSecretKeyValid = (
-  secretKey: string,
-  options: IGenerateSecretKeyOptions = defaultOptions
-): boolean => {
+export const isSecretKeyValid = (secretKey: string): boolean => {
   secretKey = secretKey.replace(/-/g, '');
-  return secretKey.length === options.length;
+  return secretKey.length === Constants.DEFAULT_LENGTH;
 };
 
 /**
@@ -42,7 +38,7 @@ export const isSecretKeyValid = (
 export const formatSecretKey = (secretKey: string): string => {
   const isValid = isSecretKeyValid(secretKey);
   if (isValid) {
-    return secretKey.replace(/(.{4})(.{4})(.{4})(.{4})/, '$1-$2-$3-$4');
+    return secretKey.replace(/(.{5})(.{5})(.{5})(.{5})/, '$1-$2-$3-$4');
   }
   return secretKey;
 };

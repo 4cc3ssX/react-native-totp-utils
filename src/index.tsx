@@ -1,9 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
-import type {
-  IGenerateOTPOptions,
-  IGenerateSecretKeyOptions,
-  IValidateOTPOptions,
-} from './types';
+import type { IGenerateOTPOptions, IValidateOTPOptions } from './types';
 
 const LINKING_ERROR =
   `The package 'react-native-totp-utils' doesn't seem to be linked. Make sure: \n\n` +
@@ -31,30 +27,22 @@ const g = global as any;
 export enum Constants {
   DEFAULT_DIGITS = 6,
   DEFAULT_TIME_STEP = 30,
-  DEFAULT_SECRET_KEY_LENGTH = 16,
   DEFAULT_WINDOW = 1,
+  DEFAULT_LENGTH = 20,
 }
 
 export const defaultOptions = {
   digits: Constants.DEFAULT_DIGITS,
   timeStep: Constants.DEFAULT_TIME_STEP,
   window: Constants.DEFAULT_WINDOW,
-  length: Constants.DEFAULT_SECRET_KEY_LENGTH,
 };
 
 /**
  * Generates a secret key for TOTP.
- * @param {IGenerateSecretKeyOptions} options - The length of the secret key.
  * @returns {string} The generated secret key.
  */
-export function generateSecretKey(
-  options: IGenerateSecretKeyOptions = defaultOptions
-): string {
-  options = {
-    ...defaultOptions,
-    ...options,
-  };
-  return g.totpUtilsGenerateSecretKey(options.length);
+export function generateSecretKey(): string {
+  return g.totpUtilsGenerateSecretKey();
 }
 
 /**
@@ -63,7 +51,7 @@ export function generateSecretKey(
  * @param {IGenerateOTPOptions} options - The number of digits in the generated OTP.
  * @returns {string} The generated TOTP.
  */
-export function generateOTP(
+export function generateTOTP(
   secretKey: string,
   options: IGenerateOTPOptions = defaultOptions
 ): string {
@@ -72,7 +60,7 @@ export function generateOTP(
     ...defaultOptions,
     ...options,
   };
-  return g.totpUtilsGenerateOTP(secretKey, options.digits, options.timeStep);
+  return g.totpUtilsGenerateTOTP(secretKey, options.digits, options.timeStep);
 }
 
 /**
@@ -82,7 +70,7 @@ export function generateOTP(
  * @param {IValidateOTPOptions} options - The number of digits in the OTP.
  * @returns {boolean} True if the OTP is valid, false otherwise.
  */
-export function validateOTP(
+export function validateTOTP(
   secretKey: string,
   otp: string,
   options: IValidateOTPOptions = {}
@@ -92,7 +80,7 @@ export function validateOTP(
     ...defaultOptions,
     ...options,
   };
-  return g.totpUtilsValidateOTP(
+  return g.totpUtilsValidateTOTP(
     secretKey,
     otp,
     options.digits,
@@ -103,8 +91,8 @@ export function validateOTP(
 
 const RNTOTP = {
   generateSecretKey,
-  generateOTP,
-  validateOTP,
+  generateTOTP,
+  validateTOTP,
 };
 
 export * from './utils';

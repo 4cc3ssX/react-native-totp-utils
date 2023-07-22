@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
 import {
-  generateOTP,
+  generateTOTP,
   generateSecretKey,
-  validateOTP,
+  validateTOTP,
   formatSecretKey,
   formatOTP,
 } from 'react-native-totp-utils';
@@ -21,12 +21,12 @@ export default function App() {
     setSecretKey(formatSecretKey(secret));
 
     // generate OTP
-    const totp = generateOTP(secret);
+    const totp = generateTOTP(secret);
     // set formatted OTP
     setOTP(formatOTP(totp));
 
     // validate OTP
-    const valid = validateOTP(secret, totp);
+    const valid = validateTOTP(secret, totp);
     setIsValid(valid);
   }, []);
 

@@ -1,9 +1,10 @@
+> [!IMPORTANT]
+> ## MOVED TO NEW REPOSITORY
+> This library is no longer maintained and moved to new repository [react-native-nitro-totp](https://github.com/4cc3ssX/react-native-nitro-totp).
+
 # react-native-totp-utils
 
 A full-featured Time-Based One-Time Password (TOTP) library for React Native, providing functions for generating and validating OTP codes.
-
-## !! MOVED TO NEW REPOSITORY
-This project is no longer maintain and moved to new repository [react-native-nitro-totp](https://github.com/4cc3ssX/react-native-nitro-totp).
 
 ## Features
 
